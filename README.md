@@ -15,6 +15,46 @@ guessing.
 > concepts used (MME, SGW, PGW, HSS, GTP, S1/S11/S6a) come from public 3GPP
 > specifications.
 
+## Example
+
+```bash
+uv run noc_agent.py "Give a short RCA for PGW-02 and say which other nodes look healthy."
+```
+
+The agent discovers the nodes, pulls each node's KPIs, then reasons over them
+(tool calls are logged to stderr):
+
+```
+INFO noc_agent: Tool call: list_nodes()
+INFO noc_agent: Tool call: get_node_kpi(PGW-02)
+INFO noc_agent: Tool call: get_node_kpi(HSS-01)
+INFO noc_agent: Tool call: get_node_kpi(MME-01)
+INFO noc_agent: Tool call: get_node_kpi(SGW-01)
+```
+
+Answer (abridged, from a real run on the bundled synthetic data):
+
+> **PGW-02: degraded.** Session success rate is **94.1%**, well below the ~99%
+> a healthy PGW usually holds, and there are **27 GTP echo timeouts**.
+>
+> **Most likely cause:** a GTP path problem on PGW-02's S5/S8 side. When echo
+> requests time out, those peer paths are treated as down and session creation
+> over them fails, which explains the drop in session success.
+>
+> **Next checks:** per-peer GTP echo stats on PGW-02; transport to those peers
+> (interface errors, loss, latency, recent routing changes); PGW-02 CPU/memory
+> and its Gx/SGi interfaces.
+>
+> | Node | Key KPIs | Assessment |
+> |---|---|---|
+> | HSS-01 | Auth 99.9%, S6a timeouts 1 | Healthy |
+> | SGW-01 | Bearer setup 99.5%, S11 path failures 0 | Healthy |
+> | MME-01 | Attach 99.2%, paging 97.8%, S1 setup failures 3 | Healthy, worth watching |
+>
+> **Bottom line:** impact is confined to session setup at PGW-02.
+
+A run like this takes about 15–20 seconds and costs about $0.15–0.30 in API usage.
+
 ## Features
 
 - In-process MCP tools (no separate server process):
