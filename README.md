@@ -1,4 +1,6 @@
-# noc-agent
+# telecom-noc-agent
+
+[![CI](https://github.com/nikhil2sharma/telecom-noc-agent/actions/workflows/ci.yml/badge.svg)](https://github.com/nikhil2sharma/telecom-noc-agent/actions/workflows/ci.yml)
 
 An AI assistant for 4G core (EPC) network operations, built with the
 [Claude Agent SDK](https://docs.claude.com/en/api/agent-sdk/overview).
@@ -67,11 +69,14 @@ uv run noc_agent.py --data path/to/kpis.json "Which nodes look unhealthy?"
 
 See [data/sample_kpis.json](data/sample_kpis.json) for a full example.
 
-## Tests
+## Development
 
 ```bash
-uv run pytest
+uv run pytest        # no API calls; tools are tested directly
+uv run ruff check .
 ```
+
+CI runs lint, format check, tests and a secret scan on every push.
 
 ## Exit codes
 
@@ -88,6 +93,7 @@ uv run pytest
 noc_agent.py            Agent, tools and CLI
 data/sample_kpis.json   Synthetic demo data
 tests/test_tools.py     Unit tests for tool logic
+.github/workflows/      CI: lint, tests, secret scan
 ```
 
 ## License

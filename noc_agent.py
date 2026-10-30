@@ -125,14 +125,24 @@ async def run(question: str, options: ClaudeAgentOptions) -> int:
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="4G EPC NOC assistant powered by Claude.")
-    parser.add_argument("question", nargs="?", default=DEFAULT_QUESTION,
-                        help="Question to ask the agent (default: %(default)r)")
-    parser.add_argument("--model", default=None,
-                        help="Claude model ID to use (default: Claude Code's default)")
-    parser.add_argument("--max-turns", type=int, default=5,
-                        help="Maximum agent turns (default: %(default)s)")
-    parser.add_argument("--data", type=Path, default=DEFAULT_DATA_FILE,
-                        help="Path to KPI JSON file (default: bundled synthetic data)")
+    parser.add_argument(
+        "question",
+        nargs="?",
+        default=DEFAULT_QUESTION,
+        help="Question to ask the agent (default: %(default)r)",
+    )
+    parser.add_argument(
+        "--model", default=None, help="Claude model ID to use (default: Claude Code's default)"
+    )
+    parser.add_argument(
+        "--max-turns", type=int, default=5, help="Maximum agent turns (default: %(default)s)"
+    )
+    parser.add_argument(
+        "--data",
+        type=Path,
+        default=DEFAULT_DATA_FILE,
+        help="Path to KPI JSON file (default: bundled synthetic data)",
+    )
     parser.add_argument("-v", "--verbose", action="store_true", help="Enable debug logging")
     return parser.parse_args(argv)
 
