@@ -1,0 +1,9 @@
+{
+  "description": "Synthetic demo data. Node names and values are fictional and do not represent any real network, vendor or operator.",
+  "nodes": {
+    "MME-01": {"type": "MME", "attach_success_rate": 99.2, "s1_setup_failures": 3, "paging_success_rate": 97.8},
+    "SGW-01": {"type": "SGW", "bearer_setup_success_rate": 99.5, "s11_path_failures": 0},
+    "PGW-02": {"type": "PGW", "session_success_rate": 94.1, "gtp_echo_timeouts": 27, "active_sessions": 18250},
+    "HSS-01": {"type": "HSS", "auth_success_rate": 99.9, "s6a_timeouts": 1}
+  }
+}
